@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Redirect, Version } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Redirect,
+  Version,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller({
@@ -7,16 +14,21 @@ import { UserService } from './user.service';
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @Get(':id')
+  getUser(@Param('id') id: number) {
+    return this.userService.getUserById(Number(id));
+  }
+
   @Get()
   @Version('1')
   @Redirect('http://localhost:3000/v2/user', 302)
-  getUser() {
-    return this.userService.getUser();
+  getUsers() {
+    return this.userService.getUsers();
   }
 
   @Get()
   @Version('2')
-  getUserV2() {
+  getUsersV2() {
     return 'Redirected successfully';
   }
 
