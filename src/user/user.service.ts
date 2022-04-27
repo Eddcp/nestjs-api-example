@@ -26,4 +26,14 @@ export class UserService {
 
     return foundUser;
   }
+
+  getUserByName(name: string) {
+    const foundUser = users.find((u) => u.name === name);
+
+    if (!foundUser) {
+      throw new NotFoundException('User not found');
+    }
+
+    return foundUser;
+  }
 }
