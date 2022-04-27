@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
@@ -7,6 +8,8 @@ import {
   Redirect,
   Version,
 } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { UserI } from './models/user.interface';
 import { UserService } from './user.service';
 
 @Controller({
@@ -37,7 +40,7 @@ export class UserController {
   }
 
   @Post()
-  saveUser() {
-    return 'Created';
+  saveUser(@Body() user: UserI): Observable<UserI> {
+    return this.userService.add(user);
   }
 }
