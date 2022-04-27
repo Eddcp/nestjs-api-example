@@ -1,11 +1,15 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
   Post,
+  Query,
   Redirect,
   Version,
 } from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { UserI } from './models/user.interface';
 import { UserService } from './user.service';
 
 @Controller({
@@ -23,17 +27,20 @@ export class UserController {
   @Version('1')
   @Redirect('http://localhost:3000/v2/user', 302)
   getUsers() {
-    return this.userService.getUsers();
+    return this.userService.getAll();
   }
 
   @Get()
   @Version('2')
-  getUsersV2() {
-    return 'Redirected successfully';
+  getUsersV2(@Query('name') name: string) {
+    if (name) {
+      return this.userService.getUserByName(name);
+    }
+    return this.userService.getAll();
   }
 
   @Post()
-  saveUser() {
-    return 'Created';
+  saveUser(@Body() user: UserI): Observable<UserI> {
+    return this.userService.add(user);
   }
 }

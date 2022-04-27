@@ -1,0 +1,28 @@
+version: '3.5'
+
+services:
+  database:
+    container_name: database
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: senha #studying purpose use environment variables
+      MYSQL_DATABASE: nestjsapiexample
+    volumes:
+      - db-volume:/var/lib/mysql
+    restart: unless-stopped
+  backend:
+    # image: eddcp/nestjs-api-example
+    restart: always
+    container_name: nestjs-api-example-backend
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - database
+
+volumes:
+  db-volume:

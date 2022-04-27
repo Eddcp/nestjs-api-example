@@ -71,3 +71,23 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+
+## Shoutout to Bruno Benicio 
+[NestJS: criando uma API Rest com Typescript - Bruno Benicio](https://www.udemy.com/course/introducao-ao-nestjs/) - NestJS: Creating a REST API with Typescript
+
+## Start Commands for Docker
+Build your image:
+`docker build <your path> -t <<user>>/projectname>`
+
+Run:
+`docker run -p 3000:3000 <<user>>/project-name>`
+
+For Example:
+`docker build <your path> -t eddcp/nestjs-api-example`
+`docker run -p 3000:3000 eddcp/nestjs-api-example`
+
+Basic Docker Commands:
+List your docker images: `docker images`
+List your running containers: `docker ps`
+Kill a running container: `docker kill <id of container from docker ps>`
