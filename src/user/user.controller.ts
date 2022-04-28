@@ -10,13 +10,17 @@ import {
   Redirect,
   Version,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Observable } from 'rxjs';
+import UserSearchDTO from './models/user-search.dto';
+import UserDTO from './models/user.dto';
 import { UserI } from './models/user.interface';
 import { UserService } from './user.service';
 
 @Controller({
   path: 'user',
 })
+@ApiTags('User')
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -34,7 +38,9 @@ export class UserController {
 
   @Get()
   @Version('2')
-  getUsersV2(@Query('name') name: string) {
+  getUsersV2(@Query() params: UserSearchDTO) {
+    const { name } = params;
+
     if (name) {
       return this.userService.getUserByName(name);
     }
@@ -42,7 +48,7 @@ export class UserController {
   }
 
   @Post()
-  saveUser(@Body() user: UserI): Observable<UserI> {
+  saveUser(@Body() user: UserDTO): Observable<UserI> {
     return this.userService.add(user);
   }
 
@@ -52,7 +58,7 @@ export class UserController {
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: string, @Body() user: UserI) {
+  updateUser(@Param('id') id: string, @Body() user: UserDTO) {
     return this.userService.update(id, user);
   }
 }
