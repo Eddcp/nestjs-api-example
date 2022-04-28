@@ -4,10 +4,13 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user/models/user.entity';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TaskModule } from './schedule/task.module';
 
 @Module({
   imports: [
     UserModule,
+    TaskModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'database',
@@ -18,6 +21,7 @@ import { UserEntity } from './user/models/user.entity';
       entities: [UserEntity],
       synchronize: true,
     }),
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],
