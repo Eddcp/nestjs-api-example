@@ -1,9 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
+  Put,
   Query,
   Redirect,
   Version,
@@ -42,5 +44,15 @@ export class UserController {
   @Post()
   saveUser(@Body() user: UserI): Observable<UserI> {
     return this.userService.add(user);
+  }
+
+  @Delete(':id')
+  deleteUser(@Param('id') id: string) {
+    return this.userService.delete(id);
+  }
+
+  @Put(':id')
+  updateUser(@Param('id') id: string, @Body() user: UserI) {
+    return this.userService.update(id, user);
   }
 }

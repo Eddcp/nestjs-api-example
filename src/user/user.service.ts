@@ -5,17 +5,6 @@ import { Repository } from 'typeorm';
 import { UserEntity } from './models/user.entity';
 import { UserI } from './models/user.interface';
 
-const users = [
-  {
-    id: 1,
-    name: 'Jhon',
-  },
-  {
-    id: 2,
-    name: 'Jane',
-  },
-];
-
 @Injectable()
 export class UserService {
   constructor(
@@ -27,27 +16,28 @@ export class UserService {
     return from(this.userRepository.save(user));
   }
 
+  delete(id: string) {
+    return this.userRepository.delete(id);
+  }
+
   getAll(): Observable<UserI[]> {
     return from(this.userRepository.find());
   }
 
-  getUserById(id: number) {
-    const foundUser = users.find((u) => u.id === id);
-
-    if (!foundUser) {
+  async getUserById(id: number) {
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    return foundUser;
+    return user;
   }
 
-  getUserByName(name: string) {
-    const foundUser = users.find((u) => u.name === name);
+  getUserByName(name: string): Observable<UserI[]> {
+    return from(this.userRepository.find({ where: { name } }));
+  }
 
-    if (!foundUser) {
-      throw new NotFoundException('User not found');
-    }
-
-    return foundUser;
+  update(id: string, user: UserI) {
+    return this.userRepository.update(id, user);
   }
 }
